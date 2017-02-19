@@ -2,6 +2,7 @@
 #r "./packages/FAKE/tools/FakeLib.dll"
 
 open Fake
+open Fake.Testing.Expecto
 
 // Directories
 let buildDir  = "./build/"
@@ -27,6 +28,20 @@ Target "Build" (fun _ ->
     |> Log "AppBuild-Output: "
 )
 
+
+// define test executables
+let testExecutables = !! (buildDir + "/*.Test.exe")
+
+Target "Test" (fun _ ->
+    testExecutables
+    |> Expecto (fun p ->
+        { p with
+            Debug = true
+            Parallel = true
+            ListTests = false
+        })
+)
+
 Target "Deploy" (fun _ ->
     !! (buildDir + "/**/*.*")
     -- "*.zip"
@@ -39,4 +54,4 @@ Target "Deploy" (fun _ ->
   ==> "Deploy"
 
 // start build
-RunTargetOrDefault "Build"
+RunTargetOrDefault "Test"
