@@ -10,43 +10,50 @@ open Humanoid
 let tests =
     testList "All" [
 
-        testList "rfc examples" [
+        testList "RFC 1751 examples" [
             testCase "Example 1" (fun _ ->
                 let key = 0xEB33F77EE73D4053UL
-                let words = [| "TIDE"; "ITCH"; "SLOW"; "REIN"; "RULE"; "MOT" |]
+                let words = [| "tide"; "itch"; "slow"; "rein"; "rule"; "mot" |]
                 test <@ (Memo.ofKey key) = words && Memo.toKey words = key @>
             )
             testCase "Example 2 first half" (fun _ ->
                 let key = 0xCCAC2AED591056BEUL
-                let words = [| "RASH"; "BUSH"; "MILK"; "LOOK"; "BAD"; "BRIM" |]
+                let words = [| "rash"; "bush"; "milk"; "look"; "bad"; "brim" |]
                 test <@ (Memo.ofKey key) = words && Memo.toKey words = key @>
             )
             testCase "Example 2 second half" (fun _ ->
                 let key = 0x4F90FD441C534766UL
-                let words = [| "AVID"; "GAFF"; "BAIT"; "ROT"; "POD"; "LOVE" |]
+                let words = [| "avid"; "gaff"; "bait"; "rot"; "pod"; "love" |]
                 test <@ (Memo.ofKey key) = words && Memo.toKey words = key @>
             )
             testCase "Example 3 first half" (fun _ ->
                 let key = 0xEFF81F9BFBC65350UL
-                let words = [| "TROD"; "MUTE"; "TAIL"; "WARM"; "CHAR"; "KONG" |]
+                let words = [| "trod"; "mute"; "tail"; "warm"; "char"; "kong" |]
                 test <@ (Memo.ofKey key) = words && Memo.toKey words = key @>
             )
             testCase "Example 3 second half" (fun _ ->
                 let key = 0x920CDD7416DE8009UL
-                let words = [| "HAAG"; "CITY"; "BORE"; "O"; "TEAL"; "AWL" |]
+                let words = [| "haag"; "city"; "bore"; "o"; "teal"; "awl" |]
                 test <@ (Memo.ofKey key) = words && Memo.toKey words = key @>
             )
-            testCase "Roundtrip single uint64" (fun _ ->
+            testCase "Roundtrip single key" (fun _ ->
                 Check.QuickThrowOnFailure(fun (DoNotSize i)  -> 
                     test <@ i |> Memo.ofKey |> Memo.toKey = i @>)
             )
-        ]
-
-        testList "Roundtrip sequence of keys" [
-            testCase "Sequence of uint64" (fun _ ->
+            testCase "Roundtrip single key is case independent" (fun _ ->
+                Check.QuickThrowOnFailure(fun (DoNotSize i)  -> 
+                    test <@ i |> Memo.ofKey |> Seq.map (fun s -> s.ToLowerInvariant())  |> Memo.toKey = i @>)
+            )
+            testCase "Roundtrip sequence of keys" (fun _ ->
                 Check.QuickThrowOnFailure(fun (i:list<DoNotSize<uint64>>) ->
                     let ints = i |> List.map (fun (DoNotSize i) -> i)
                     test <@ ints |> Memo.ofKeys |> Memo.toKeys |> Seq.toList = ints @>
+                )
+            )
+            testCase "Roundtrip sequence of keys is case independent" (fun _ ->
+                Check.QuickThrowOnFailure(fun (i:list<DoNotSize<uint64>>) ->
+                    let ints = i |> List.map (fun (DoNotSize i) -> i)
+                    test <@ ints |> Memo.ofKeys |> Seq.map (fun s -> s.ToLowerInvariant()) |> Memo.toKeys |> Seq.toList = ints @>
                 )
             )
         ]

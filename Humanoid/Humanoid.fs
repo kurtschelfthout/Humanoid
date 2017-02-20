@@ -24,13 +24,13 @@ module Memo =
         |> Seq.toArray
 
     let toKey words =
-        let findWord w = Array.IndexOf(Data.wordList, w)
+        let findWord w = Data.wordList |> Array.tryFindIndex (fun elem -> String.Equals(elem, w, StringComparison.InvariantCultureIgnoreCase))
         let indices = words |> Seq.map findWord |> Seq.toArray
-        let notFound = indices |> Seq.exists (fun i -> i < 0) 
+        let notFound = indices |> Seq.exists (fun i -> i.IsNone) 
         if notFound then
-            let unknownWords = indices |> Seq.zip words |> Seq.where (fun (_,i) -> i < 0) |> Seq.map fst
+            let unknownWords = indices |> Seq.zip words |> Seq.where (fun (_,i) -> i.IsNone) |> Seq.map fst
             invalidArg "words" (sprintf "Could not find %s in the word list." (String.Join(", ", unknownWords)))
-        let indices = indices |> Array.map uint64
+        let indices = indices |> Array.map (Option.get >> uint64)
         let buildKey (bits, index) (acc:uint64) = (if bits >=0 then index <<< bits else index >>> abs bits) ||| acc
         let key = 
             indices
