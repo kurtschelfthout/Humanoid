@@ -3,10 +3,16 @@
 open Humanoid
 open System
 
-let g = Guid.NewGuid()
-let i = [| BitConverter.ToUInt64(g.ToByteArray(),0);BitConverter.ToUInt64(g.ToByteArray(),8)|]
+
+Memo.fromUInt64 02035567889UL
+
+Memo.toUInt64 [|"a"; "a"; "a"; "use"; "wed"; "gale"|]
+
+Memo.fromGuid <| Guid.Parse("a4133885-613b-40c9-aa4a-94e1c143918f")
+
+Memo.toGuid [|"tin"; "ally"; "atom"; "acid"; "phi"; "tun"; "grab"; "gave"; "tuba";"nell"; "web"; "been"|]
 
 
-Memo.ofKeys i
+Memo.fromUInt64Short 6587UL
 
-Memo.ofKey (uint64 Int32.MaxValue)
+Memo.toUInt64Short [ "alp"; "skim" ]
