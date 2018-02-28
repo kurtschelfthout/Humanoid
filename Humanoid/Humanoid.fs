@@ -27,7 +27,7 @@ module Memo =
     /// Take 6 words, checksum them, and if the checksum succeeds, return the unique
     /// UInt64 that corresponds to them.
     let toUInt64 words =
-        let findWord w = Data.wordList |> Array.tryFindIndex (fun elem -> String.Equals(elem, w, StringComparison.InvariantCultureIgnoreCase))
+        let findWord w = Data.wordList |> Array.tryFindIndex (fun elem -> String.Equals(elem, w, StringComparison.OrdinalIgnoreCase))
         let indices = words |> Seq.map findWord |> Seq.toArray
         let notFound = indices |> Seq.exists (fun i -> i.IsNone) 
         if notFound then
