@@ -1,6 +1,13 @@
 source https://www.nuget.org/api/v2
-nuget Expecto
-nuget FAKE
-nuget FsCheck
+
+framework: auto-detect
+
 nuget FSharp.Core
+
+# Tools
+nuget FAKE
+
+# Testing
+nuget Expecto
+nuget FsCheck
 nuget Unquote
