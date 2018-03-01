@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Data.fs" />
+    <Compile Include="WordList.fs" />
     <Compile Include="Humanoid.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
