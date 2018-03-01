@@ -1,15 +1,15 @@
 # Humanoid - Human friendly Ids
 
-Humanoid provides a small and simple F# API to convert identifiers (like integers, guids, strings, ...) into a representation that is more easy to pronounce, shout, remember and generally communicate to humans: a bunch of words.
+Humanoid provides a small and simple .NET API to convert identifiers (like integers, guids, strings, ...) into a representation that is more easy to pronounce, shout, remember and generally communicate to humans: a bunch of words.
 
 Humanoid is at its core an implementation of [RFC 1751](https://tools.ietf.org/html/rfc1751), with a few small extensions.
 
 ## Quickstart
 
-First, we need a simple instance of the ```Memo``` type so it knows which word list to use:
+First, we need a simple instance of the ```Memo``` type so it knows which word list to use. I'll use F# here, but the whole API is just one plain old .NET type with a few methods, nothing stops you from using this in any .NET language.
 
 ```fsharp
-> let memo = Memo(WordList.RFC1751)
+> let memo = new Memo(WordList.RFC1751)
 ```
 
 Here's a phone number:
